@@ -5,7 +5,7 @@ export const defaults = {
 export const resolvers = {
     // context 상의 token이나 cache 같은
     // arguments를 가질 것 이다.
-    Mutatiaon: {
+    Mutation: {
         logUserIn: (_, {token}, {cache}) => {
             localStorage.setItem("token", token);
             cache.writeData({
