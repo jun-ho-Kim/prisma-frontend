@@ -14,4 +14,7 @@ export default createGlobalStyle`
         color: ${props => props.theme.blueColor};
         text-decoration: none;
     }
+    input:focus{
+        outline:none;
+    }
 `;
