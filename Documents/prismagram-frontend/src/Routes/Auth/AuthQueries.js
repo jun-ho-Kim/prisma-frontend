@@ -20,3 +20,15 @@ export const CREATE_ACCOUNT = gql`
     )
   }
 `;
+
+export const CONFRIM_SECRET = gql`
+  mutation confirmSecret($secret: String!, $email: String!) {
+    confirmSecret(secret: $secret, email: $email)
+  }
+`;
+
+export const LOCAL_LOG_IN = gql`
+  mutation logUserIn($token: String!) {
+    logUserIn(token: $token) @client
+  }
+`;

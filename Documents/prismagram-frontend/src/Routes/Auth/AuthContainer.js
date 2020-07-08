@@ -2,7 +2,7 @@ import React, {useState} from "react";
 import AuthPresenter from "./AuthPresenter";
 import useInput from "../../Hooks/useInput";
 import {useMutation} from "@apollo/react-hooks";
-import { LOG_IN, CREATE_ACCOUNT } from "./AuthQueries";
+import { LOG_IN, CREATE_ACCOUNT, CONFRIM_SECRET, LOCAL_LOG_IN } from "./AuthQueries";
 import { toast } from "react-toastify";
 
 export default () => {
@@ -10,7 +10,8 @@ export default () => {
     const username = useInput("");
     const firstName = useInput("");
     const lastName = useInput("");
-    const email = useInput("wnsgh5049@naver.com");
+    const email = useInput("");
+    const secret = useInput("");
     /*useInput은 return 값으로 value와 onChange 값을 줄 것이다.
     그래서 email.value 사용 */
     const [requestSecretMutation] = useMutation(LOG_IN,  {
@@ -24,19 +25,29 @@ export default () => {
           lastName: lastName.value
         }
       });
+      const [confirmSecretMutation] = useMutation(CONFRIM_SECRET, {
+          variables: {
+              email: email.value,
+              secret: secret.value
+          }
+      });
+      const [localLogInMutation] = useMutation(LOCAL_LOG_IN);
 
     const onSubmit = async (e) => {
         e.preventDefault();
         if(action === "logIn") {
             if(email.value !== "") {
                 try {
-                    const { data: {requestSecret} } =  await requestSecretMutation();
+                    const { 
+                        data: { requestSecret } 
+                    } =  await requestSecretMutation();
                     if(requestSecret) {
                         toast.error("You dont have an account yet, create one");
                         toast.error("등록이 안된 email 입니다.");
                         setTimeout(() => setAction("signUp"), 3000);
                     } else {
                         toast.success("Check Check your inbox for your login secret");
+                        setAction("confirm");
                     }
                 } catch {
                     toast.error("Can't request secret, try again")
@@ -53,7 +64,9 @@ export default () => {
                 lastName.value !== ""
             ) {
                 try {
-                    const {data: {createAccount}} = await createAccountMutation();
+                    const {
+                        data: { createAccount } 
+                    } = await createAccountMutation();
                     if(!createAccount) {
                         toast.error("Can't create account");
                     } else {
@@ -67,6 +80,22 @@ export default () => {
                 toast.error("All filed are required");
                 toast.error("빈칸을 입력해주세요~");
             }
+        } else if(action === "confirm") {
+            if(secret.value !== "") {
+                try {
+                    const {
+                        data: {confirmSecret: token}
+                    } = await confirmSecretMutation();
+                    console.log("token:", token);
+                    if(token !== "" && token !== undefined) {
+                        localLogInMutation({variables: {token}});
+                    } else {
+                        throw Error();
+                    }
+                } catch {
+                    toast.error("Cant confirm secret,check again");
+                }
+            }
         }
     };
 
@@ -78,7 +107,9 @@ export default () => {
             firstName={firstName}
             lastName={lastName}
             email={email}
+            secret={secret}
             onSubmit={onSubmit}
+
         />
     )
 };
