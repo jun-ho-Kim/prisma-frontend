@@ -12,7 +12,7 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  min-height: 80vh;
+  min-height: 10vh;
 `;
 
 const Header = styled.header`
@@ -28,6 +28,7 @@ const Header = styled.header`
     justify-content: center;
     align-items: center;
     padding: 25px 0px;
+    z-index: 2;
 `;
 
 const HeaderWrapper = styled.div`
@@ -89,7 +90,7 @@ export default withRouter(({ history }) => {
   };
   return (
     <Wrapper>
-    {loading ? "":
+    {loading ? <Loader />:
     <Header>
       <HeaderWrapper>
         <HeaderColumn>
