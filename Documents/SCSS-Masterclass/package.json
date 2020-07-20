@@ -1,0 +1,30 @@
+{
+  "name": "scss-masterclass",
+  "version": "1.0.0",
+  "description": "(S)CSS Layout Masterclass: Flexbox & Grid",
+  "main": "index.js",
+  "scripts": {
+    "dev": "gulp dev"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jun-ho-Kim/SCSS-Masterclass.git"
+  },
+  "author": "junho-Kim",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jun-ho-Kim/SCSS-Masterclass/issues"
+  },
+  "homepage": "https://github.com/jun-ho-Kim/SCSS-Masterclass#readme",
+  "dependencies": {
+    "@babel/core": "^7.10.5",
+    "@babel/preset-env": "^7.10.4",
+    "@babel/register": "^7.10.5",
+    "del": "^5.1.0",
+    "gulp": "^4.0.2",
+    "gulp-autoprefixer": "^7.0.1",
+    "gulp-csso": "^4.0.1",
+    "gulp-sass": "^4.1.0",
+    "node-sass": "^4.14.1"
+  }
+}
